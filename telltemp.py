@@ -15,6 +15,7 @@ tempArrary = []
 humidityArray = []
 old_temp = ''
 old_humidity = ''
+conn = sqlite3.connect('temp_and_humidity.db')
 # plt.ion() #Tell matplotlib you watn interactive mode to plot live data
 
 # def makeFigure():
@@ -52,18 +53,17 @@ if __name__ == '__main__':
 
         # counter = 0
         while (True):
-            if (arduinoData.inWaiting()>0):
-                Linetext = arduinoData.readline()
-                readList = Linetext.split()
-                status = readList[0]
-                temperature = readList[1]
-                humidity = readList[2]
-
-                if temperature != old_temp and humidity != old_humidity:
-                    old_temp = temperature
-                    old_humidity = humidity
+            try:
+                if (arduinoData == None):
+                    arduinoData = serial.Serial('com4', 9600)
+                if (arduinoData.inWaiting()>0):
+                    Linetext = arduinoData.readline()
+                    readList = Linetext.split()
+                    status = readList[0]
+                    temperature = readList[1]
+                    humidity = readList[2]
                     humidex = calculate_humidex(float(temperature),float(humidity) )
-    
+
                     #plot the live data
                     # tempArrary.append(float(temperature))
                     # humidityArray.append(float(humidity))
@@ -85,9 +85,17 @@ if __name__ == '__main__':
                         print(status, temperature, humidity+b"%", humidex)
                     except EnvironmentError:
                         print("can't open the file. wait for another 5 min.")
-                sleep(300)
-                # counter += 1
-                # if counter > 20:
-                #     tempArrary.pop(0)
-                #     humidityArray.pop(0)
+                else:
+                    continue
 
+
+            except serial.SerialException:
+                print ("Reading sensor error. retry connecting in 5 min")
+                arduinoData.close()
+
+
+            sleep(300)
+            # counter += 1
+            # if counter > 20:
+            #     tempArrary.pop(0)
+            #     humidityArray.pop(0)
