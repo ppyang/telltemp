@@ -90,8 +90,10 @@ if __name__ == '__main__':
 
 
             except serial.SerialException:
+                print(serial.SerialException)
                 print ("Reading sensor error. retry connecting in 5 min")
                 arduinoData.close()
+                arduinoData = None
 
 
             sleep(300)
