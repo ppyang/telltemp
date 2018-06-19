@@ -63,7 +63,7 @@ if __name__ == '__main__':
                     temperature = readList[1]
                     humidity = readList[2]
                     humidex = calculate_humidex(float(temperature),float(humidity) )
-
+                    arduinoData.flushInput()
                     #plot the live data
                     # tempArrary.append(float(temperature))
                     # humidityArray.append(float(humidity))
@@ -95,7 +95,11 @@ if __name__ == '__main__':
                 arduinoData.close()
                 arduinoData = None
 
-
+            #reset everything
+            temperature = ''
+            humidity = ''
+            arduinoData.close()
+            arduinoData = None
             sleep(300)
             # counter += 1
             # if counter > 20:
