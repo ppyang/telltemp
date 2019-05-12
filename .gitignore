@@ -3,3 +3,4 @@ __pycache__/*
 pip-selfcheck\.json
 .idea/
 venv/
+telltemp_venv/
