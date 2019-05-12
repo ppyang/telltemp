@@ -82,7 +82,7 @@ if __name__ == '__main__':
                             os.fsync(csvfile.fileno())
                             csvfile.close()
                         #print the data in terminal
-                        print(status, temperature, humidity+b"%", humidex)
+                        print(status, temperature, humidity+b"%", humidex, now.strftime('%Y/%m/%d %H:%M'))
                     except EnvironmentError:
                         print("can't open the file. wait for another 5 min.")
                 else:
